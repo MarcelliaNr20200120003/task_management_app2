@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:task_management_app2/app/routes/app_pages.dart';
+import 'package:task_management_app2/app/utils/style/AppColors.dart';
 
 class header extends StatelessWidget {
   const header({
@@ -21,11 +22,11 @@ class header extends StatelessWidget {
             children: const [
               Text(
                 'Task Management',
-                style: TextStyle(fontSize: 20, color: Colors.grey),
+                style: TextStyle(fontSize: 20, color: AppColors.primaryBg),
               ),
               Text(
                 'Manage task made easy with friends',
-                style: TextStyle(fontSize: 15, color: Colors.grey),
+                style: TextStyle(fontSize: 15, color: AppColors.primaryBg),
               ),
             ],
           ),
@@ -60,7 +61,7 @@ class header extends StatelessWidget {
           ),
           const Icon(
             Ionicons.notifications,
-            color: Colors.grey,
+            color: AppColors.primaryBg,
           ),
           const SizedBox(
             width: 20,
@@ -84,14 +85,14 @@ class header extends StatelessWidget {
               children: const [
                 Text(
                   'Sign Out',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: AppColors.primaryBg),
                 ),
                 SizedBox(
                   width: 5,
                 ),
                 Icon(
                   Ionicons.log_out_outline,
-                  color: Colors.grey,
+                  color: AppColors.primaryBg,
                 ),
               ],
             ),
