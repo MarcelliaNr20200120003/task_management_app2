@@ -62,6 +62,7 @@ class header extends StatelessWidget {
           const Icon(
             Ionicons.notifications,
             color: AppColors.primaryText,
+            size: 30,
           ),
           const SizedBox(
             width: 20,
@@ -85,7 +86,7 @@ class header extends StatelessWidget {
               children: const [
                 Text(
                   'Sign Out',
-                  style: TextStyle(color: AppColors.primaryText),
+                  style: TextStyle(color: AppColors.primaryText, fontSize: 18),
                 ),
                 SizedBox(
                   width: 5,
@@ -93,6 +94,7 @@ class header extends StatelessWidget {
                 Icon(
                   Ionicons.log_out_outline,
                   color: AppColors.primaryText,
+                  size: 30,
                 ),
               ],
             ),
