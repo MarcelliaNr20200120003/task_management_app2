@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:task_management_app2/app/utils/style/AppColors.dart';
 import 'package:task_management_app2/app/utils/widget/header.dart';
 import 'package:task_management_app2/app/utils/widget/sidebar.dart';
 
@@ -11,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[100],
+      backgroundColor: AppColors.primaryBg,
       body: Row(
         children: [
           const Expanded(
