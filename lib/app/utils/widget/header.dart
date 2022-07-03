@@ -22,11 +22,11 @@ class header extends StatelessWidget {
             children: const [
               Text(
                 'Task Management',
-                style: TextStyle(fontSize: 20, color: AppColors.primaryBg),
+                style: TextStyle(fontSize: 20, color: AppColors.primaryText),
               ),
               Text(
                 'Manage task made easy with friends',
-                style: TextStyle(fontSize: 15, color: AppColors.primaryBg),
+                style: TextStyle(fontSize: 15, color: AppColors.primaryText),
               ),
             ],
           ),
@@ -61,7 +61,7 @@ class header extends StatelessWidget {
           ),
           const Icon(
             Ionicons.notifications,
-            color: AppColors.primaryBg,
+            color: AppColors.primaryText,
           ),
           const SizedBox(
             width: 20,
@@ -85,14 +85,14 @@ class header extends StatelessWidget {
               children: const [
                 Text(
                   'Sign Out',
-                  style: TextStyle(color: AppColors.primaryBg),
+                  style: TextStyle(color: AppColors.primaryText),
                 ),
                 SizedBox(
                   width: 5,
                 ),
                 Icon(
                   Ionicons.log_out_outline,
-                  color: AppColors.primaryBg,
+                  color: AppColors.primaryText,
                 ),
               ],
             ),
