@@ -33,7 +33,7 @@ class UpcomingTask extends StatelessWidget {
                 shrinkWrap: true,
                 children: [
                   Container(
-                    height: 200,
+                    height: 150,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: AppColors.cardBg,
