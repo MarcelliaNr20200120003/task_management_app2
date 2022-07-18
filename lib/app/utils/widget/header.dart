@@ -62,7 +62,7 @@ class header extends StatelessWidget {
           const Icon(
             Ionicons.notifications,
             color: AppColors.primaryText,
-            size: 30,
+            size: 20,
           ),
           const SizedBox(
             width: 20,

@@ -47,7 +47,7 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                           ),
                           const SizedBox(
-                            width: 20,
+                            width: 15,
                           ),
                           Column(
                             //mainAxisAlignment: MainAxisAlignment.start,

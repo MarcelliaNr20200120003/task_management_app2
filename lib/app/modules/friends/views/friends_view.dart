@@ -27,7 +27,7 @@ class FriendsView extends GetView<FriendsController> {
                 )
               : const SizedBox(),
           Expanded(
-            flex: 15,
+            flex: 16,
             child: Column(children: [
               !context.isPhone
                   ? const header()
