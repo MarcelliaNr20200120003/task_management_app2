@@ -63,7 +63,7 @@ class ProfileView extends GetView<ProfileController> {
                                       color: AppColors.primaryText),
                                 ),
                                 Text(
-                                  'Manage task made easy with friends',
+                                  'Manage task made easy',
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: AppColors.primaryText),
@@ -101,7 +101,7 @@ class ProfileView extends GetView<ProfileController> {
                                   Icon(
                                     Ionicons.log_out_outline,
                                     color: AppColors.primaryText,
-                                    size: 30,
+                                    size: 20,
                                   ),
                                 ],
                               ),

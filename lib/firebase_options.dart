@@ -70,8 +70,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '878212850066',
     projectId: 'task-management-apps2',
     storageBucket: 'task-management-apps2.appspot.com',
-    androidClientId: '878212850066-ujo18dbsj996ug5903sthpg2vq0pj50r.apps.googleusercontent.com',
-    iosClientId: '878212850066-gac5j87u8tnj0qbspnm88eace83r7l11.apps.googleusercontent.com',
+    androidClientId:
+        '878212850066-ujo18dbsj996ug5903sthpg2vq0pj50r.apps.googleusercontent.com',
+    iosClientId:
+        '878212850066-gac5j87u8tnj0qbspnm88eace83r7l11.apps.googleusercontent.com',
     iosBundleId: 'com.example.taskManagementApp2',
   );
 }

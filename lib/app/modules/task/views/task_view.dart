@@ -58,7 +58,7 @@ class TaskView extends GetView<TaskController> {
                                       color: AppColors.primaryText),
                                 ),
                                 Text(
-                                  'Manage task made easy with friends',
+                                  'Manage task made easy',
                                   style: TextStyle(
                                       fontSize: 15,
                                       color: AppColors.primaryText),
@@ -72,7 +72,7 @@ class TaskView extends GetView<TaskController> {
                               size: 30,
                             ),
                             const SizedBox(
-                              width: 15,
+                              width: 10,
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(30),
