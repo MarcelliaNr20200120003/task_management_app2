@@ -57,7 +57,7 @@ class FriendsView extends GetView<FriendsController> {
                                       style: TextStyle(fontSize: 21),
                                     ),
                                     Text(
-                                      "Manage Task Easy With Friend",
+                                      "Manage Task Easy",
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: AppColors.primaryText),
@@ -65,7 +65,7 @@ class FriendsView extends GetView<FriendsController> {
                                   ]),
                               const Spacer(),
                               const Icon(Ionicons.notifications, size: 25),
-                              const SizedBox(width: 15),
+                              const SizedBox(width: 10),
                               const ClipRRect(
                                 child: CircleAvatar(
                                     backgroundColor: Colors.white,
@@ -233,7 +233,7 @@ class FriendsView extends GetView<FriendsController> {
                                             padding:
                                                 const EdgeInsets.only(top: 20),
                                             child: SizedBox(
-                                              height: 325,
+                                              height: 180,
                                               child: GridView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: 12,
@@ -247,7 +247,7 @@ class FriendsView extends GetView<FriendsController> {
                                                   return Column(
                                                       children: const [
                                                         CircleAvatar(
-                                                          maxRadius: 49,
+                                                          maxRadius: 40,
                                                           foregroundImage:
                                                               NetworkImage(
                                                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU'),
