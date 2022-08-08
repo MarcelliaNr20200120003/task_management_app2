@@ -111,14 +111,14 @@ class FriendsView extends GetView<FriendsController> {
                 child: Container(
                   padding: !context.isPhone
                       ? const EdgeInsets.all(30)
-                      : const EdgeInsets.all(10),
+                      : const EdgeInsets.all(0),
                   margin: !context.isPhone
                       ? const EdgeInsets.all(15)
                       : const EdgeInsets.all(0),
                   decoration: BoxDecoration(
                     borderRadius: !context.isPhone
                         ? BorderRadius.circular(50)
-                        : BorderRadius.circular(30),
+                        : BorderRadius.circular(20),
                     color: Colors.white,
                   ),
                   child: Padding(
@@ -139,7 +139,7 @@ class FriendsView extends GetView<FriendsController> {
                                   padding:
                                       const EdgeInsets.only(top: 5, bottom: 10),
                                   child: SizedBox(
-                                    height: 180,
+                                    height: 150,
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
                                       shrinkWrap: true,
@@ -152,7 +152,7 @@ class FriendsView extends GetView<FriendsController> {
                                           child: Stack(children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(50),
+                                                  BorderRadius.circular(30),
                                               child: const Image(
                                                 image: NetworkImage(
                                                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU'),
