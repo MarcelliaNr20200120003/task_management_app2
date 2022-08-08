@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,20 +6,18 @@ import 'package:ionicons/ionicons.dart';
 import 'package:task_management_app2/app/routes/app_pages.dart';
 
 import '../style/AppColors.dart';
+import '../../data/controller/auth_controller.dart';
 
 class MyFriends extends StatelessWidget {
-  const MyFriends({
-    Key? key,
-  }) : super(key: key);
+  final authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
+            padding: const EdgeInsets.all(20.0),
+            child: Column(children: [
               Row(
                 children: [
                   Text(
@@ -31,7 +30,7 @@ class MyFriends extends StatelessWidget {
                   Spacer(),
                   GestureDetector(
                     onTap: (() => Get.toNamed(Routes.FRIENDS)),
-                    child: Text(
+                    child: const Text(
                       'More',
                       style: TextStyle(
                         color: AppColors.primaryText,
@@ -39,45 +38,61 @@ class MyFriends extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Ionicons.chevron_forward,
                     color: AppColors.primaryText,
                   )
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
               SizedBox(
-                height: 400,
-                child: GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: 8,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: context.isPhone ? 2 : 3,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20),
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: const Image(
-                              image: NetworkImage(
-                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU'),
-                            ),
-                          ),
-                          const Text(
-                            'Marcellia',
-                            style: TextStyle(color: AppColors.primaryText),
-                          ),
-                        ],
+                  height: 200,
+                  child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                    stream: authC.streamFriends(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      var myFriends = (snapshot.data!.data()
+                          as Map<String, dynamic>)['emailFriends'] as List;
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: myFriends.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: context.isPhone ? 2 : 5,
+                          crossAxisSpacing: 1,
+                          mainAxisSpacing: 30,
+                        ),
+                        itemBuilder: (context, index) {
+                          return StreamBuilder<
+                                  DocumentSnapshot<Map<String, dynamic>>>(
+                              stream: authC.streamUsers(myFriends[index]),
+                              builder: (context, snapshot2) {
+                                if (snapshot2.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                var data = snapshot2.data!.data();
+                                return Column(children: [
+                                  CircleAvatar(
+                                    maxRadius: 80,
+                                    foregroundImage:
+                                        NetworkImage(data!['photo']),
+                                  ),
+                                  Text(
+                                    data['name'],
+                                    style: const TextStyle(
+                                        color: AppColors.primaryText,
+                                        fontSize: 18),
+                                  ),
+                                ]);
+                              });
+                        },
                       );
                     }),
-              )
-            ],
-          ),
-        ),
+                  ))
+            ])),
       ),
     );
   }

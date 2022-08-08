@@ -1,3 +1,6 @@
+//ignore_for_file:prefer_const_constructors
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,6 +11,7 @@ import 'package:task_management_app2/app/utils/widget/MyFriends.dart';
 import 'package:task_management_app2/app/utils/widget/SideBar.dart';
 import 'package:task_management_app2/app/utils/widget/header.dart';
 import '../../../routes/app_pages.dart';
+import '../../../utils/widget/PeopleYouMyKnow.dart';
 import '../controllers/friends_controller.dart';
 
 class FriendsView extends GetView<FriendsController> {
@@ -130,86 +134,25 @@ class FriendsView extends GetView<FriendsController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                                 const Text(
-                                  'People You Know',
+                                  'People You May Know',
                                   style: TextStyle(
                                       fontSize: 23,
                                       color: AppColors.primaryText),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 10),
-                                  child: SizedBox(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      clipBehavior: Clip.antiAlias,
-                                      itemCount: 10,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 20, bottom: 20, right: 20),
-                                          child: Stack(children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              child: const Image(
-                                                image: NetworkImage(
-                                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU'),
-                                              ),
-                                            ),
-                                            const Positioned(
-                                                bottom: 5,
-                                                left: 30,
-                                                child: Text(
-                                                  'Marcellia Nara',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                )),
-                                            Positioned(
-                                              bottom: 0,
-                                              right: 0,
-                                              child: SizedBox(
-                                                height: 36,
-                                                width: 36,
-                                                child: ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    padding: EdgeInsets.zero,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                    ),
-                                                  ),
-                                                  onPressed: () {},
-                                                  child: const Icon(
-                                                    Ionicons.add_circle_outline,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ]),
-                                        );
-                                      },
-                                    ),
-                                  ),
+                                  padding: EdgeInsets.only(top: 5, bottom: 10),
+                                  child: PeopleYouMayKnow(),
                                 ),
                                 !context.isPhone
-                                    ? const MyFriends()
+                                    ? MyFriends()
                                     : Expanded(
                                         child: Column(children: [
                                           Row(children: [
-                                            const Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 10, top: 10),
-                                              child: Text(
-                                                'My Friends',
-                                                style: TextStyle(
-                                                  color: AppColors.primaryText,
-                                                  fontSize: 23,
-                                                ),
+                                            Text(
+                                              'My Friends',
+                                              style: TextStyle(
+                                                color: AppColors.primaryText,
+                                                fontSize: 23,
                                               ),
                                             ),
                                             const Spacer(),
@@ -234,37 +177,88 @@ class FriendsView extends GetView<FriendsController> {
                                                 const EdgeInsets.only(top: 20),
                                             child: SizedBox(
                                               height: 180,
-                                              child: GridView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: 12,
-                                                gridDelegate:
-                                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount:
-                                                      context.isPhone ? 3 : 3,
-                                                  mainAxisSpacing: 25,
-                                                ),
-                                                itemBuilder: (context, index) {
-                                                  return Column(
-                                                      children: const [
-                                                        CircleAvatar(
-                                                          maxRadius: 40,
-                                                          foregroundImage:
-                                                              NetworkImage(
-                                                                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU'),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 1.5),
-                                                          child: Text(
-                                                            'Marcellia Nara ',
-                                                            style: TextStyle(
-                                                                color: AppColors
-                                                                    .primaryText,
-                                                                fontSize: 15),
-                                                          ),
-                                                        ),
-                                                      ]);
+                                              child: StreamBuilder<
+                                                  DocumentSnapshot<
+                                                      Map<String, dynamic>>>(
+                                                stream: authC.streamFriends(),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return const Center(
+                                                        child:
+                                                            CircularProgressIndicator());
+                                                  }
+
+                                                  var myFriends =
+                                                      (snapshot.data!.data()
+                                                                  as Map<String,
+                                                                      dynamic>)[
+                                                              'emailFriends']
+                                                          as List;
+
+                                                  return GridView.builder(
+                                                      shrinkWrap: true,
+                                                      itemCount:
+                                                          myFriends.length,
+                                                      gridDelegate:
+                                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount:
+                                                            context.isPhone
+                                                                ? 3
+                                                                : 3,
+                                                        mainAxisSpacing: 10,
+                                                      ),
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return StreamBuilder<
+                                                                DocumentSnapshot<
+                                                                    Map<String,
+                                                                        dynamic>>>(
+                                                            stream: authC
+                                                                .streamUsers(
+                                                                    myFriends[
+                                                                        index]),
+                                                            builder: (context,
+                                                                snapshot2) {
+                                                              if (snapshot2
+                                                                      .connectionState ==
+                                                                  ConnectionState
+                                                                      .waiting) {
+                                                                return const Center(
+                                                                    child:
+                                                                        CircularProgressIndicator());
+                                                              }
+                                                              var data =
+                                                                  snapshot2
+                                                                      .data!
+                                                                      .data();
+                                                              return Column(
+                                                                  children: [
+                                                                    CircleAvatar(
+                                                                      maxRadius:
+                                                                          40,
+                                                                      foregroundImage:
+                                                                          NetworkImage(
+                                                                              data!['photo']),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets
+                                                                          .only(
+                                                                              top: 1.5),
+                                                                      child:
+                                                                          Text(
+                                                                        data[
+                                                                            'name'],
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                AppColors.primaryText,
+                                                                            fontSize: 15),
+                                                                      ),
+                                                                    ),
+                                                                  ]);
+                                                            });
+                                                      });
                                                 },
                                               ),
                                             ),
@@ -277,6 +271,8 @@ class FriendsView extends GetView<FriendsController> {
                             shrinkWrap: true,
                             itemCount: authC.hasilPencarian.length,
                             itemBuilder: (context, index) => ListTile(
+                              onTap: () => authC.addFriends(
+                                  authC.hasilPencarian[index]['email']),
                               leading: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: Image(
