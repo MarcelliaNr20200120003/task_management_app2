@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +7,12 @@ import 'package:ionicons/ionicons.dart';
 import 'package:task_management_app2/app/utils/style/AppColors.dart';
 import 'package:task_management_app2/app/utils/widget/SideBar.dart';
 import 'package:task_management_app2/app/utils/widget/header.dart';
+import '../../../data/controller/auth_controller.dart';
 import '../controllers/task_controller.dart';
 
 class TaskView extends GetView<TaskController> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  TaskView({Key? key}) : super(key: key);
+  final authC = Get.find<AuthController>;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,8 @@ class TaskView extends GetView<TaskController> {
                               ],
                             ),
                             const Spacer(),
-                            const Icon(Ionicons.notifications, size: 25),
+                            const Icon(Ionicons.notifications,
+                                color: AppColors.primaryText, size: 25),
                             const SizedBox(width: 15),
                             const ClipRRect(
                               child: CircleAvatar(
@@ -98,7 +101,7 @@ class TaskView extends GetView<TaskController> {
                             child: const Text(
                               'My Task',
                               style: TextStyle(
-                                color: AppColors.primaryText,
+                                color: Color.fromARGB(221, 128, 128, 128),
                                 fontSize: 23,
                               ),
                             ),
@@ -116,7 +119,7 @@ class TaskView extends GetView<TaskController> {
                                     addEditTask(
                                         context: context,
                                         type: 'Update',
-                                        docId: '2022-08-01T11:49:53.686660');
+                                        docId: '2022-08-12T14:06:54.560');
                                   },
                                   child: Container(
                                     height: 160,

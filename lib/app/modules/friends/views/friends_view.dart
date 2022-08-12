@@ -66,7 +66,8 @@ class FriendsView extends GetView<FriendsController> {
                                     ),
                                   ]),
                               const Spacer(),
-                              const Icon(Ionicons.notifications, size: 25),
+                              const Icon(Ionicons.notifications,
+                                  color: AppColors.primaryText, size: 25),
                               const SizedBox(width: 15),
                               const ClipRRect(
                                 child: CircleAvatar(
