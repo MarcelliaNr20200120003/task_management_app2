@@ -1,8 +1,6 @@
-//ignore_for_file:prefer_const_constructors
-
+// ignore_for_file: prefer_const_constructors
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:task_management_app2/app/data/controller/auth_controller.dart';
@@ -12,12 +10,12 @@ import 'package:task_management_app2/app/utils/widget/SideBar.dart';
 import 'package:task_management_app2/app/utils/widget/header.dart';
 import '../../../routes/app_pages.dart';
 import '../../../utils/widget/PeopleYouMyKnow.dart';
+import '../../../utils/widget/peopleYouMayKnow.dart';
 import '../controllers/friends_controller.dart';
 
 class FriendsView extends GetView<FriendsController> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   final authC = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,11 +67,11 @@ class FriendsView extends GetView<FriendsController> {
                                   ]),
                               const Spacer(),
                               const Icon(Ionicons.notifications, size: 25),
-                              const SizedBox(width: 10),
+                              const SizedBox(width: 15),
                               const ClipRRect(
                                 child: CircleAvatar(
                                     backgroundColor: Colors.white,
-                                    radius: 25,
+                                    radius: 24,
                                     foregroundImage: NetworkImage(
                                         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU')),
                               )
@@ -115,14 +113,14 @@ class FriendsView extends GetView<FriendsController> {
                 child: Container(
                   padding: !context.isPhone
                       ? const EdgeInsets.all(30)
-                      : const EdgeInsets.all(0),
+                      : const EdgeInsets.all(10),
                   margin: !context.isPhone
                       ? const EdgeInsets.all(15)
                       : const EdgeInsets.all(0),
                   decoration: BoxDecoration(
                     borderRadius: !context.isPhone
                         ? BorderRadius.circular(50)
-                        : BorderRadius.circular(20),
+                        : BorderRadius.circular(30),
                     color: Colors.white,
                   ),
                   child: Padding(
@@ -150,155 +148,156 @@ class FriendsView extends GetView<FriendsController> {
                                 !context.isPhone
                                     ? MyFriends()
                                     : Expanded(
-                                        child: Column(children: [
-                                          Row(children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 20),
-                                              child: Text(
-                                                'My Friends',
-                                                style: TextStyle(
-                                                  color: AppColors.primaryText,
-                                                  fontSize: 23,
+                                        child: SingleChildScrollView(
+                                          child: Column(children: [
+                                            Row(children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 20),
+                                                child: Text(
+                                                  'My Friends',
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppColors.primaryText,
+                                                    fontSize: 23,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Spacer(),
-                                            GestureDetector(
-                                              onTap: () =>
-                                                  Get.toNamed(Routes.FRIENDS),
-                                              child: const Text(
-                                                'more',
-                                                style: TextStyle(
-                                                  color: AppColors.primaryText,
-                                                  fontSize: 20,
+                                              const Spacer(),
+                                              GestureDetector(
+                                                onTap: () =>
+                                                    Get.toNamed(Routes.FRIENDS),
+                                                child: const Text(
+                                                  'more',
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppColors.primaryText,
+                                                    fontSize: 20,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: const Icon(
+                                                  Ionicons.chevron_forward,
+                                                  color: AppColors.primaryText,
+                                                ),
+                                              )
+                                            ]),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 10),
-                                              child: const Icon(
-                                                Ionicons.chevron_forward,
-                                                color: AppColors.primaryText,
+                                                  top: 20),
+                                              child: SizedBox(
+                                                height: 320,
+                                                child: StreamBuilder<
+                                                    DocumentSnapshot<
+                                                        Map<String, dynamic>>>(
+                                                  stream: authC.streamFriends(),
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot
+                                                            .connectionState ==
+                                                        ConnectionState
+                                                            .waiting) {
+                                                      return const Center(
+                                                          child:
+                                                              CircularProgressIndicator());
+                                                    }
+
+                                                    var myFriends = (snapshot
+                                                                .data!
+                                                                .data()
+                                                            as Map<String,
+                                                                dynamic>)[
+                                                        'emailFriends'] as List;
+
+                                                    return GridView.builder(
+                                                        shrinkWrap: true,
+                                                        itemCount:
+                                                            myFriends.length,
+                                                        gridDelegate:
+                                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                          crossAxisCount:
+                                                              context.isPhone
+                                                                  ? 2
+                                                                  : 5,
+                                                          mainAxisSpacing: 20,
+                                                        ),
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return StreamBuilder<
+                                                                  DocumentSnapshot<
+                                                                      Map<String,
+                                                                          dynamic>>>(
+                                                              stream: authC
+                                                                  .streamUsers(
+                                                                      myFriends[
+                                                                          index]),
+                                                              builder: (context,
+                                                                  snapshot2) {
+                                                                if (snapshot2
+                                                                        .connectionState ==
+                                                                    ConnectionState
+                                                                        .waiting) {
+                                                                  return const Center(
+                                                                      child:
+                                                                          CircularProgressIndicator());
+                                                                }
+
+                                                                var data =
+                                                                    snapshot2
+                                                                        .data!
+                                                                        .data();
+                                                                return Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 5,
+                                                                      right: 5),
+                                                                  child: Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(20),
+                                                                          child:
+                                                                              Image(
+                                                                            image:
+                                                                                NetworkImage(data!['photo']),
+                                                                            height:
+                                                                                Get.width * 0.35,
+                                                                            width:
+                                                                                Get.width * 0.35,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          ),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.only(top: 10),
+                                                                          child:
+                                                                              Text(
+                                                                            data['name'],
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: AppColors.primaryText,
+                                                                              fontSize: 15,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                );
+                                                              });
+                                                        });
+                                                  },
+                                                ),
                                               ),
                                             )
                                           ]),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 20),
-                                            child: SizedBox(
-                                              height: 180,
-                                              child: StreamBuilder<
-                                                  DocumentSnapshot<
-                                                      Map<String, dynamic>>>(
-                                                stream: authC.streamFriends(),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return const Center(
-                                                        child:
-                                                            CircularProgressIndicator());
-                                                  }
-
-                                                  var myFriends =
-                                                      (snapshot.data!.data()
-                                                                  as Map<String,
-                                                                      dynamic>)[
-                                                              'emailFriends']
-                                                          as List;
-
-                                                  return GridView.builder(
-                                                      shrinkWrap: true,
-                                                      itemCount:
-                                                          myFriends.length,
-                                                      gridDelegate:
-                                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount:
-                                                            context.isPhone
-                                                                ? 2
-                                                                : 5,
-                                                        mainAxisSpacing: 20,
-                                                      ),
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return StreamBuilder<
-                                                                DocumentSnapshot<
-                                                                    Map<String,
-                                                                        dynamic>>>(
-                                                            stream: authC
-                                                                .streamUsers(
-                                                                    myFriends[
-                                                                        index]),
-                                                            builder: (context,
-                                                                snapshot2) {
-                                                              if (snapshot2
-                                                                      .connectionState ==
-                                                                  ConnectionState
-                                                                      .waiting) {
-                                                                return const Center(
-                                                                    child:
-                                                                        CircularProgressIndicator());
-                                                              }
-                                                              var data =
-                                                                  snapshot2
-                                                                      .data!
-                                                                      .data();
-                                                              return Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left: 5,
-                                                                        right:
-                                                                            5),
-                                                                child: Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(20),
-                                                                        child:
-                                                                            Image(
-                                                                          image:
-                                                                              NetworkImage(data!['photo']),
-                                                                          height:
-                                                                              Get.width * 0.35,
-                                                                          width:
-                                                                              Get.width * 0.35,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding:
-                                                                            const EdgeInsets.only(top: 10),
-                                                                        child:
-                                                                            Text(
-                                                                          data[
-                                                                              'name'],
-                                                                          textAlign:
-                                                                              TextAlign.center,
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                AppColors.primaryText,
-                                                                            fontSize:
-                                                                                15,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ]),
-                                                              );
-                                                            });
-                                                      });
-                                                },
-                                              ),
-                                            ),
-                                          )
-                                        ]),
+                                        ),
                                       ),
                               ])
                         : ListView.builder(
