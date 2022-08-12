@@ -81,17 +81,25 @@ class MyFriends extends StatelessWidget {
                                     }
 
                                     var data = snapshot2.data!.data();
+
                                     return Column(children: [
-                                      CircleAvatar(
-                                        maxRadius: 80,
-                                        foregroundImage:
-                                            NetworkImage(data!['photo']),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image(
+                                          image: NetworkImage(data!['photo']),
+                                          height: 170,
+                                          width: 170,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                      Text(
-                                        data['name'],
-                                        style: const TextStyle(
-                                            color: AppColors.primaryText,
-                                            fontSize: 18),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          (data['name']),
+                                          style: const TextStyle(
+                                              color: AppColors.primaryText,
+                                              fontSize: 18),
+                                        ),
                                       ),
                                     ]);
                                   });

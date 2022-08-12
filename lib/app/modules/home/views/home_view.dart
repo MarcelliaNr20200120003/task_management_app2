@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 
@@ -7,14 +8,17 @@ import 'package:ionicons/ionicons.dart';
 import 'package:task_management_app2/app/utils/style/AppColors.dart';
 import 'package:task_management_app2/app/utils/widget/header.dart';
 import 'package:task_management_app2/app/utils/widget/myTask.dart';
+import 'package:task_management_app2/app/utils/widget/myfriends.dart';
 import 'package:task_management_app2/app/utils/widget/sidebar.dart';
+import 'package:task_management_app2/app/utils/widget/PeopleYouMyKnow.dart';
+import '../../../data/controller/auth_controller.dart';
+import '../../../routes/app_pages.dart';
 
-import '../../../utils/widget/myfriends.dart';
-import '../../../utils/widget/upcomingTask.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+  final authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +30,12 @@ class HomeView extends GetView<HomeController> {
         child: Row(
           children: [
             !context.isPhone
-                ? const Expanded(
-                    flex: 2,
-                    child: SideBar(),
-                  )
+                ? const Expanded(flex: 2, child: SideBar())
                 : const SizedBox(),
             Expanded(
               flex: 16,
               child: Column(children: [
+                //Bagian Header
                 !context.isPhone
                     ? const header()
                     : Container(
@@ -45,7 +47,7 @@ class HomeView extends GetView<HomeController> {
                                 _drawerKey.currentState!.openDrawer();
                               },
                               icon: const Icon(
-                                Icons.menu,
+                                Ionicons.menu,
                                 color: AppColors.primaryText,
                               ),
                             ),
@@ -53,20 +55,21 @@ class HomeView extends GetView<HomeController> {
                               width: 15,
                             ),
                             Column(
-                              //mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
                                 Text(
                                   'Task Management',
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: AppColors.primaryText),
+                                    fontSize: 20,
+                                    color: AppColors.primaryText,
+                                  ),
                                 ),
                                 Text(
-                                  'Manage task made easy',
+                                  'Task management terbaik',
                                   style: TextStyle(
-                                      fontSize: 15,
-                                      color: AppColors.primaryText),
+                                    fontSize: 15,
+                                    color: AppColors.primaryText,
+                                  ),
                                 ),
                               ],
                             ),
@@ -81,64 +84,49 @@ class HomeView extends GetView<HomeController> {
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.circular(30),
-                              child: const CircleAvatar(
+                              child: CircleAvatar(
                                 backgroundColor: Colors.amber,
                                 radius: 25,
                                 foregroundImage: NetworkImage(
-                                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU'),
+                                    authC.auth.currentUser!.photoURL!),
                               ),
                             )
                           ],
                         ),
                       ),
-                // content / isi page / screen
+                // isi page
                 Expanded(
                   child: Container(
                     padding: !context.isPhone
                         ? const EdgeInsets.all(40)
                         : const EdgeInsets.all(20),
-                    margin: !context.isPhone
-                        ? const EdgeInsets.all(10)
-                        : const EdgeInsets.all(0),
+                    margin: !context.isPhone ? const EdgeInsets.all(10) : null,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: !context.isPhone
-                          ? BorderRadius.circular(40)
-                          : BorderRadius.circular(20),
-                    ),
+                        color: Colors.white,
+                        borderRadius: !context.isPhone
+                            ? BorderRadius.circular(40)
+                            : BorderRadius.circular(20)),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            height: Get.height * 0.4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Text(
-                                  'My Task',
-                                  style: TextStyle(
-                                    color: AppColors.primaryText,
-                                    fontSize: 30,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                // my task
-                                MyTask(),
-                              ],
-                            ),
+                          // start MY TASK
+                          const Text(
+                            'People You May Know',
+                            style: TextStyle(
+                                color: AppColors.primaryText, fontSize: 30),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          PeopleYouMayKnow(),
+                          // end of MY TASK
                           !context.isPhone
                               ? Expanded(
                                   child: Row(
-                                    children: [
-                                      UpcomingTask(),
-                                      MyFriends(),
-                                    ],
+                                    children: [myTask(), MyFriends()],
                                   ),
                                 )
-                              : const UpcomingTask(),
+                              : myTask(),
                         ]),
                   ),
                 )

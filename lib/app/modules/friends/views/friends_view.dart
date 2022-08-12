@@ -69,12 +69,12 @@ class FriendsView extends GetView<FriendsController> {
                               const Icon(Ionicons.notifications,
                                   color: AppColors.primaryText, size: 25),
                               const SizedBox(width: 15),
-                              const ClipRRect(
+                              ClipRRect(
                                 child: CircleAvatar(
                                     backgroundColor: Colors.white,
                                     radius: 24,
                                     foregroundImage: NetworkImage(
-                                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSibTMP3266859JrPVaoYmIXXinEtq9Bn_hfg&usqp=CAU')),
+                                        authC.auth.currentUser!.photoURL!)),
                               )
                             ],
                           ),
